@@ -14,7 +14,6 @@ public class SharedPreferencesManager {
 
     private String NAME = "MCBot";
     private String USERNAME = "username";
-    private String USER_ID = "userId";
     private String PASSWORD = "password";
 
     private SharedPreferencesManager(Context context) {
@@ -35,15 +34,6 @@ public class SharedPreferencesManager {
 
     public void setUsername(String username) {
         editor.putString(USERNAME, username);
-        editor.commit();
-    }
-
-    public int getUserId() {
-        return pref.getInt(USER_ID, 1);
-    }
-
-    public void setUserId(int userId) {
-        editor.putInt(USER_ID, userId);
         editor.commit();
     }
 
