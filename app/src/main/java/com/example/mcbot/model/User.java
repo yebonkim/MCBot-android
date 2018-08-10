@@ -8,17 +8,17 @@ public class User {
     private String title;
     private String password;
     private String username;
-    private String profile;
+    private String profileName;
 
     public User() {
 
     }
 
-    public User(String title, String password, String username, String profile) {
+    public User(String title, String password, String username, String profileName) {
         this.title = title;
         this.password = password;
         this.username = username;
-        this.profile = profile;
+        this.profileName = profileName;
     }
 
     public String getUsername() {
@@ -38,12 +38,12 @@ public class User {
         this.title = title;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getProfileName() {
+        return profileName;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public String getPassword() {

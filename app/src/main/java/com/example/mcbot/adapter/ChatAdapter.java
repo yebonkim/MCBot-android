@@ -12,6 +12,7 @@ import com.example.mcbot.R;
 import com.example.mcbot.adapter.recyclerview.RecyclerViewHolder;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.User;
+import com.example.mcbot.util.ImageUtil;
 import com.example.mcbot.util.SharedPreferencesManager;
 
 import java.util.ArrayList;
@@ -129,8 +130,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             User user = getUserByUsername(chats.get(position).getUsername());
             nameTV.setText(user.getShowingName());
             msgTV.setText(chats.get(position).getMessage());
-            //TODO : set Profile Image
-
+            ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);
         }
     }
 }
