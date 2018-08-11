@@ -31,6 +31,9 @@ public class ImageUtil {
     }
 
     public static void setProfileImage(final Context context, String filename, final ImageView imageView) {
+        if(filename == null)
+            return;
+
         setImage(context, "profile/"+filename+".png", imageView);
     }
 

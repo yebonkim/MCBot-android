@@ -9,16 +9,26 @@ public class User {
     private String password;
     private String username;
     private String profileName;
+    private int bot;
 
     public User() {
 
     }
 
-    public User(String title, String password, String username, String profileName) {
+    public User(String title, String password, String username, String profileName, int bot) {
         this.title = title;
         this.password = password;
         this.username = username;
         this.profileName = profileName;
+        this.bot = bot;
+    }
+
+    public int getBot() {
+        return bot;
+    }
+
+    public void setBot(int bot) {
+        this.bot = bot;
     }
 
     public String getUsername() {
