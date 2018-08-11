@@ -1,8 +1,7 @@
 package com.example.mcbot.util.retro;
 
 
-import com.example.mcbot.model.Chat;
-import com.example.mcbot.model.ChatResult;
+import com.example.mcbot.model.PostResult;
 
 import java.util.HashMap;
 
@@ -20,6 +19,8 @@ public interface RetroBaseApiService {
     String Base_URL= "http://abc3287c.ngrok.io";
 
     @POST("/api/chats")
-    Call<ChatResult> postChat(@Body HashMap<String, Object> parameters);
+    Call<PostResult> postChat(@Body HashMap<String, Object> parameters);
 
+    @POST("/api/faces")
+    Call<PostResult> postFace(@Body HashMap<String, Object> parameters);
 }

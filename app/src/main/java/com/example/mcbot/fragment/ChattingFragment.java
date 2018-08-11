@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.example.mcbot.R;
-import com.example.mcbot.activity.RatingActivity;
+import com.example.mcbot.activity.SmileActivity;
 import com.example.mcbot.adapter.ChatAdapter;
 import com.example.mcbot.model.Chat;
-import com.example.mcbot.model.ChatResult;
+import com.example.mcbot.model.PostResult;
 import com.example.mcbot.model.User;
 import com.example.mcbot.util.SharedPreferencesManager;
 import com.example.mcbot.util.TimeUtil;
@@ -62,7 +60,11 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
+<<<<<<< HEAD
+    String roomName;
+=======
     String roomName = "ChatRoom3";
+>>>>>>> e8a8c478c39a8742f09c2cd5be138d79e1733ca9
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
@@ -95,6 +97,7 @@ public class ChattingFragment extends Fragment {
         retroClient = RetroClient.getInstance(context).createBaseApi(); //레트로핏 초기화
 
 
+        getIntentData();
         initDatabase();
         getPreChats();
         getUsers();
@@ -102,6 +105,11 @@ public class ChattingFragment extends Fragment {
 
 
 
+    }
+
+
+    protected void getIntentData() {
+        roomName = "ChatRoom1";
     }
 
     protected void initDatabase() {
@@ -120,7 +128,6 @@ public class ChattingFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chats = new ArrayList<>();
-<<<<<<< HEAD
                 for (DataSnapshot child: dataSnapshot.getChildren())
                     chats.add(child.getValue(Chat.class));
 
@@ -129,24 +136,6 @@ public class ChattingFragment extends Fragment {
                 setRecyclerView();
 
                 chatRV.scrollToPosition( adapter.getItemCount() -1 );
-=======
-                Chat temp;
-                Boolean isLaugh = false;
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    temp = child.getValue(Chat.class);
-                    chats.add(temp);
-                    if(temp.getType() == 1)
-                        isLaugh = true;
-                }
-
-                if(isLaugh) {
-                    startActivity(new Intent(getActivity(), RatingActivity.class));
-                } else {
-                    isChatsGetDone = true;
-                    sortChats();
-                    setRecyclerView();
-                }
->>>>>>> 1e6314a7e6ccf6d47ade152dc749b521a607b057
             }
 
             @Override
@@ -185,7 +174,7 @@ public class ChattingFragment extends Fragment {
             return;
 
         chatRV.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new ChatAdapter(getActivity(), chats, users);
+        adapter = new ChatAdapter(context, chats, users);
         chatRV.setAdapter(adapter);
     }
 
@@ -193,10 +182,17 @@ public class ChattingFragment extends Fragment {
     public void sendMsg() {
         Chat chat = collectData();
 
+        if(newChatET.getText().toString().equals("하기싫다")){
+            Intent iT = new Intent( getContext(), SmileActivity.class);
+            startActivity(iT);
+        }
+
         postNewChat(chat); //to Firebase
         postChat(chat); //to Flast
 
 //        chat_listview.setSelection(chat_adapter.getCount() - 1); //가장 아래쪽으로 스크롤다운
+
+
 
 
     }
@@ -207,7 +203,7 @@ public class ChattingFragment extends Fragment {
         String msg = newChatET.getText().toString();
         String username = SharedPreferencesManager.getInstance(context).getUserName();
 
-        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp());
+        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp(), 0);
     }
 
     class ChatAscendingComparator implements Comparator<Chat> {
@@ -251,13 +247,8 @@ public class ChattingFragment extends Fragment {
     }
 
 
-<<<<<<< HEAD
     //서버(Flask)로 채팅내용 전송
     public void postChat(Chat chat){
-=======
-        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp(), 0);
-    }
->>>>>>> 1e6314a7e6ccf6d47ade152dc749b521a607b057
 
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("message", chat.getMessage());
@@ -275,7 +266,7 @@ public class ChattingFragment extends Fragment {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                ChatResult data = (ChatResult) receivedData;
+                PostResult data = (PostResult) receivedData;
                 Log.e("Retrofit", "Retrofit Response: " + data.isResult());
             }
 
