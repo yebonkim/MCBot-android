@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.IntroActivity" />
-        <activity android:name=".activity.RatingActivity"></activity>
+        <activity android:name=".activity.RatingActivity" />
+        <activity android:name=".activity.BotSettingActivity"></activity>
     </application>
 
 </manifest>
