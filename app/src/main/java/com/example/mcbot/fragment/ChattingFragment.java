@@ -1,7 +1,9 @@
 package com.example.mcbot.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -16,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.example.mcbot.R;
+import com.example.mcbot.activity.RatingActivity;
 import com.example.mcbot.adapter.ChatAdapter;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.ChatResult;
@@ -60,7 +63,7 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
-    String roomName;
+    String roomName = "ChatRoom6";
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
@@ -93,7 +96,6 @@ public class ChattingFragment extends Fragment {
         retroClient = RetroClient.getInstance(context).createBaseApi(); //레트로핏 초기화
 
 
-        getIntentData();
         initDatabase();
         getPreChats();
         getUsers();
@@ -101,11 +103,6 @@ public class ChattingFragment extends Fragment {
 
 
 
-    }
-
-
-    protected void getIntentData() {
-        roomName = "ChatRoom1";
     }
 
     protected void initDatabase() {
@@ -124,6 +121,7 @@ public class ChattingFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chats = new ArrayList<>();
+<<<<<<< HEAD
                 for (DataSnapshot child: dataSnapshot.getChildren())
                     chats.add(child.getValue(Chat.class));
 
@@ -132,6 +130,24 @@ public class ChattingFragment extends Fragment {
                 setRecyclerView();
 
                 chatRV.scrollToPosition( adapter.getItemCount() -1 );
+=======
+                Chat temp;
+                Boolean isLaugh = false;
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    temp = child.getValue(Chat.class);
+                    chats.add(temp);
+                    if(temp.getType() == 1)
+                        isLaugh = true;
+                }
+
+                if(isLaugh) {
+                    startActivity(new Intent(getActivity(), RatingActivity.class));
+                } else {
+                    isChatsGetDone = true;
+                    sortChats();
+                    setRecyclerView();
+                }
+>>>>>>> 1e6314a7e6ccf6d47ade152dc749b521a607b057
             }
 
             @Override
@@ -170,7 +186,7 @@ public class ChattingFragment extends Fragment {
             return;
 
         chatRV.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new ChatAdapter(context, chats, users);
+        adapter = new ChatAdapter(getActivity(), chats, users);
         chatRV.setAdapter(adapter);
     }
 
@@ -236,8 +252,13 @@ public class ChattingFragment extends Fragment {
     }
 
 
+<<<<<<< HEAD
     //서버(Flask)로 채팅내용 전송
     public void postChat(Chat chat){
+=======
+        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp(), 0);
+    }
+>>>>>>> 1e6314a7e6ccf6d47ade152dc749b521a607b057
 
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("message", chat.getMessage());

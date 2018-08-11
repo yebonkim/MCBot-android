@@ -29,7 +29,7 @@ public class SharedPreferencesManager {
     }
 
     public String getUserName() {
-        return pref.getString(USERNAME, "bony");
+        return pref.getString(USERNAME, "tester");
     }
 
     public void setUsername(String username) {

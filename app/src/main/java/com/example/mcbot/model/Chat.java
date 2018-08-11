@@ -13,20 +13,30 @@ public class Chat {
     private String username;
     private int unreadCnt;
     private long timestamp;
+    private int type;
 
     public Chat() {
 
     }
 
-    public Chat(String message, String username, int unreadCnt, long timestamp) {
+    public Chat(String message, String username, int unreadCnt, long timestamp, int type) {
         this.message = message;
         this.username = username;
         this.unreadCnt = unreadCnt;
         this.timestamp = timestamp;
+        this.type = type;
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setMessage(String message) {
