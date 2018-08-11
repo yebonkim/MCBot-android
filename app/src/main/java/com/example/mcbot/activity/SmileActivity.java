@@ -165,6 +165,7 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
             public void onSuccess(int code, Object receivedData) {
                 PostResult data = (PostResult) receivedData;
 
+                Log.e("FlaskFace", "결과: " + data.isResult() );
                 if(data.isResult()){
                     finish();
                 }else{
