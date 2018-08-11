@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mcbot.R;
+import com.example.mcbot.activity.NewToDoActivity;
 import com.example.mcbot.activity.RatingActivity;
 import com.example.mcbot.adapter.ChatAdapter;
 import com.example.mcbot.adapter.ToDoAdapter;
@@ -150,7 +151,7 @@ public class ToDoFragment extends Fragment {
 
     @OnClick(R.id.addBtn)
     public void goToNewToDoActivity() {
-
+        startActivity(new Intent(getActivity(), NewToDoActivity.class));
     }
 
     class ToDoAscendingComparator implements Comparator<ToDo> {

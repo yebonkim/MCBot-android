@@ -23,6 +23,7 @@
         <activity android:name=".activity.IntroActivity" />
         <activity android:name=".activity.RatingActivity" />
         <activity android:name=".activity.BotSettingActivity"></activity>
+        <activity android:name=".activity.NewToDoActivity"></activity>
     </application>
 
 </manifest>
