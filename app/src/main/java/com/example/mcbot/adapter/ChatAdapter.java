@@ -1,8 +1,6 @@
 package com.example.mcbot.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mcbot.R;
-import com.example.mcbot.activity.RatingActivity;
 import com.example.mcbot.adapter.recyclerview.RecyclerViewHolder;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.User;
@@ -70,13 +66,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return VIEW_TYPE_MY_CHAT;
         else {
             switch(chats.get(position).getType()) {
+                //show attendance message
+                case 2:
+                    if(chats.get(position).getMessage().equals(username+"님 계십니까"))
+                        return VIEW_TYPE_ATTENDANCE_CHAT;
                 case 0:
                     //other user`s message
                     return VIEW_TYPE_THIER_CHAT;
                     //case 1 is not occurred
-                case 2:
-                    //show attendance message
-                    return VIEW_TYPE_ATTENDANCE_CHAT;
+
                 case 3:
                     //show location & date pick message
                     return VIEW_TYPE_MEETING_CHAT;
@@ -217,8 +215,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case R.id.atndBtn:
                         btnYes.setText("출석 확인됨");
                         btnYes.setEnabled(false);
-//                        attendanceDB
-                        Toast.makeText(context, ""+attendanceDB, Toast.LENGTH_LONG).show();
+                        attendanceDB.child(username).setValue(true);
+//                        Toast.makeText(context, ""+attendanceDB, Toast.LENGTH_LONG).show();
 //                        System.out.println(attendanceDB);
 //                        attendanceDB.setValue(true);s
                         break;

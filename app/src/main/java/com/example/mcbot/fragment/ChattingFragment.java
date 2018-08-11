@@ -1,9 +1,11 @@
 package com.example.mcbot.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +13,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.example.mcbot.R;
+import com.example.mcbot.activity.RatingActivity;
 import com.example.mcbot.adapter.ChatAdapter;
 import com.example.mcbot.model.Chat;
+import com.example.mcbot.model.ChatResult;
 import com.example.mcbot.model.User;
 import com.example.mcbot.util.SharedPreferencesManager;
 import com.example.mcbot.util.TimeUtil;
+import com.example.mcbot.util.retro.RetroCallback;
+import com.example.mcbot.util.retro.RetroClient;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +49,8 @@ import butterknife.OnClick;
 
 public class ChattingFragment extends Fragment {
     Context context;
+    RetroClient retroClient;
+
 
     @BindView(R.id.newChatET)
     EditText newChatET;
@@ -52,7 +62,7 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
-    String roomName = "ChatRoom6";
+    String roomName = "ChatRoom3";
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
@@ -64,6 +74,7 @@ public class ChattingFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Log.d("ChattingFragment", "onCreate: ");
     }
 
@@ -81,10 +92,16 @@ public class ChattingFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         context = getContext();
+        retroClient = RetroClient.getInstance(context).createBaseApi(); //레트로핏 초기화
+
 
         initDatabase();
         getPreChats();
         getUsers();
+
+
+
+
     }
 
     protected void initDatabase() {
@@ -103,13 +120,33 @@ public class ChattingFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chats = new ArrayList<>();
+<<<<<<< HEAD
                 for (DataSnapshot child: dataSnapshot.getChildren())
                     chats.add(child.getValue(Chat.class));
 
-                //TODO : check laugh type message
                 isChatsGetDone = true;
                 sortChats();
                 setRecyclerView();
+
+                chatRV.scrollToPosition( adapter.getItemCount() -1 );
+=======
+                Chat temp;
+                Boolean isLaugh = false;
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    temp = child.getValue(Chat.class);
+                    chats.add(temp);
+                    if(temp.getType() == 1)
+                        isLaugh = true;
+                }
+
+                if(isLaugh) {
+                    startActivity(new Intent(getActivity(), RatingActivity.class));
+                } else {
+                    isChatsGetDone = true;
+                    sortChats();
+                    setRecyclerView();
+                }
+>>>>>>> 1e6314a7e6ccf6d47ade152dc749b521a607b057
             }
 
             @Override
@@ -154,11 +191,34 @@ public class ChattingFragment extends Fragment {
 
     @OnClick(R.id.sendBtn)
     public void sendMsg() {
-        postNewChat(collectData());
+        Chat chat = collectData();
+
+        postNewChat(chat); //to Firebase
+        postChat(chat); //to Flast
+
+//        chat_listview.setSelection(chat_adapter.getCount() - 1); //가장 아래쪽으로 스크롤다운
+
+
     }
 
 
 
+    protected Chat collectData() {
+        String msg = newChatET.getText().toString();
+        String username = SharedPreferencesManager.getInstance(context).getUserName();
+
+        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp());
+    }
+
+    class ChatAscendingComparator implements Comparator<Chat> {
+
+        @Override
+        public int compare(Chat chat1, Chat chat2) {
+            return (chat1.getTimestamp() >= chat2.getTimestamp())? 1 : -1;
+        }
+    }
+
+    //디비(Firebase)로 채팅내용 전송
     protected void postNewChat(Chat chat) {
         String chatName = getChatName(chat.getTimestamp());
         chatDB.child(chatName).setValue(chat);
@@ -190,19 +250,40 @@ public class ChattingFragment extends Fragment {
         });
     }
 
-    protected Chat collectData() {
-        String msg = newChatET.getText().toString();
-        String username = SharedPreferencesManager.getInstance(context).getUserName();
 
+<<<<<<< HEAD
+    //서버(Flask)로 채팅내용 전송
+    public void postChat(Chat chat){
+=======
         return new Chat(msg, username, 5, TimeUtil.getNowTimestamp(), 0);
     }
+>>>>>>> 1e6314a7e6ccf6d47ade152dc749b521a607b057
 
-    class ChatAscendingComparator implements Comparator<Chat> {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("message", chat.getMessage());
+        parameters.put("timestamp", chat.getTimestamp());
+        parameters.put("unreadCnt", 5);
+        parameters.put("username", chat.getUsername() );
 
-        @Override
-        public int compare(Chat chat1, Chat chat2) {
-            return (chat1.getTimestamp() >= chat2.getTimestamp())? 1 : -1;
-        }
+
+        retroClient.postChat(parameters, new RetroCallback() {
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e("Retrofit", "onError(), " + t.toString());
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                ChatResult data = (ChatResult) receivedData;
+                Log.e("Retrofit", "Retrofit Response: " + data.isResult());
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Log.e("Retrofit", "onFailure(), " + String.valueOf(code));
+            }
+        });
     }
 
 }

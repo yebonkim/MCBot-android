@@ -3,6 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:padding="10dp"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/toDoRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addBtn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@android:drawable/ic_input_add"
+        android:backgroundTint="@color/mcbot_sky"
+        />
 
 </android.support.constraint.ConstraintLayout>

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.IntroActivity"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.IntroActivity" />
+        <activity android:name=".activity.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <!--<activity android:name=".activity.IntroActivity" />-->
         <activity android:name=".activity.RatingActivity" />
         <activity android:name=".activity.BotSettingActivity"></activity>
+        <activity android:name=".activity.NewToDoActivity"></activity>
     </application>
 
 </manifest>
