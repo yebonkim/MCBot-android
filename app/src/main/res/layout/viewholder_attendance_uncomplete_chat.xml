@@ -46,4 +46,12 @@
         app:layout_constraintLeft_toRightOf="@id/profileIV"
         app:layout_constraintTop_toBottomOf="@id/nameTV" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="211dp"
+        tools:layout_editor_absoluteY="16dp" />
+
 </android.support.constraint.ConstraintLayout>
