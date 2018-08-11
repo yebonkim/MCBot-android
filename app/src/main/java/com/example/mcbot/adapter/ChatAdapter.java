@@ -2,6 +2,7 @@ package com.example.mcbot.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,9 +129,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void setData(int position) {
             User user = getUserByUsername(chats.get(position).getUsername());
-            nameTV.setText(user.getShowingName());
-            msgTV.setText(chats.get(position).getMessage());
-            ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);
+
+            if(user != null) {
+                nameTV.setText(user.getShowingName() + "");
+                msgTV.setText(chats.get(position).getMessage());
+                ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);
+            }
         }
     }
 }
