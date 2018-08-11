@@ -90,7 +90,7 @@ public class ChattingFragment extends Fragment {
 
 
     protected void getIntentData() {
-        roomName = "ChatRoom1";
+        roomName = "ChatRoom2";
     }
 
     protected void initDatabase() {
