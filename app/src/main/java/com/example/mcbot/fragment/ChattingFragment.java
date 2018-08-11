@@ -90,7 +90,7 @@ public class ChattingFragment extends Fragment {
 
 
     protected void getIntentData() {
-        roomName = "ChatRoom1";
+        roomName = "ChatRoom3";
     }
 
     protected void initDatabase() {
@@ -161,6 +161,8 @@ public class ChattingFragment extends Fragment {
     public void sendMsg() {
         postNewChat(collectData());
     }
+
+
 
     protected void postNewChat(Chat chat) {
         String chatName = getChatName(chat.getTimestamp());

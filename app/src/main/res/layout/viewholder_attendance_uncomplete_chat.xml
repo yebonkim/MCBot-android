@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    app:layout_constraintRight_toLeftOf="parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileIV"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:src="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/nameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="bony"
+        app:layout_constraintLeft_toRightOf="@id/profileIV"
+        app:layout_constraintTop_toTopOf="@id/profileIV" />
+
+    <Button
+        android:id="@+id/atndBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="네"
+        app:layout_constraintBaseline_toBaselineOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/msgTV" />
+
+    <TextView
+        android:id="@+id/msgTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#ababab"
+        android:gravity="center_vertical|left"
+        android:minHeight="30dp"
+        android:text="test"
+        app:layout_constraintLeft_toRightOf="@id/profileIV"
+        app:layout_constraintTop_toBottomOf="@id/nameTV" />
+
+</android.support.constraint.ConstraintLayout>
