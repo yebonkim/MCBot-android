@@ -6,15 +6,20 @@ import android.util.Log;
 
 import com.example.mcbot.R;
 import com.example.mcbot.util.retro.RetroCallback;
+import com.example.mcbot.util.retro.RetroClient;
 
 import java.util.HashMap;
 
 public class IntroActivity extends AppCompatActivity {
 
+    RetroClient retroClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
+        retroClient = RetroClient.getInstance(this).createBaseApi();
     }
 
     //서버(Flask)로 채팅내용 전송
