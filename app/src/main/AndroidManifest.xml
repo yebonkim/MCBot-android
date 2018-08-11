@@ -25,12 +25,19 @@
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
+<<<<<<< HEAD
         <!-- <activity android:name=".activity.IntroActivity" /> -->
         <activity
             android:name=".activity.RatingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.BotSettingActivity" />
         <activity android:name=".activity.SmileActivity"></activity>
+=======
+        <!--<activity android:name=".activity.IntroActivity" />-->
+        <activity android:name=".activity.RatingActivity" />
+        <activity android:name=".activity.BotSettingActivity"></activity>
+        <activity android:name=".activity.NewToDoActivity"></activity>
+>>>>>>> e8a8c478c39a8742f09c2cd5be138d79e1733ca9
     </application>
 
 </manifest>

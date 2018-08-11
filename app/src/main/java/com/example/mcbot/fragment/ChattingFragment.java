@@ -60,7 +60,11 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
+<<<<<<< HEAD
     String roomName;
+=======
+    String roomName = "ChatRoom3";
+>>>>>>> e8a8c478c39a8742f09c2cd5be138d79e1733ca9
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;

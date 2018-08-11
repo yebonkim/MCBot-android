@@ -4,22 +4,17 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mcbot.R;
 import com.example.mcbot.adapter.recyclerview.RecyclerViewHolder;
-import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.ToDo;
 import com.example.mcbot.model.ToDoUser;
 import com.example.mcbot.model.User;
-import com.example.mcbot.util.ImageUtil;
 import com.example.mcbot.util.SharedPreferencesManager;
 import com.example.mcbot.util.TimeFormat;
 import com.google.firebase.database.DataSnapshot;
@@ -116,8 +111,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView toDoTV;
         @BindView(R.id.isDoneBtn)
         Button isDoneBtn;
-        @BindView(R.id.menuBtn)
-        Button menuBtn;
+        @BindView(R.id.deleteBtn)
+        Button deleteBtn;
         @BindView(R.id.takerRV)
         RecyclerView takerRV;
 
@@ -139,10 +134,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             data = toDos.get(position);
             toDoTV.setText(data.getToDo());
             if(data.isDone()) {
-                isDoneBtn.setBackground(context.getDrawable(R.drawable.is_done_btn));
+                isDoneBtn.setBackground(context.getDrawable(R.drawable.ic_done_btn));
                 isDoneBtn.setClickable(false);
             } else {
-                isDoneBtn.setBackground(context.getDrawable(R.drawable.is_not_done_btn));
+                isDoneBtn.setBackground(context.getDrawable(R.drawable.ic_not_done_btn));
                 isDoneBtn.setClickable(true);
             }
 
@@ -154,8 +149,15 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
 
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toDoDB.child(data.getToDoName()).removeValue();
+                }
+            });
+
             dateTV.setText(TimeFormat.timestampToString(data.getDeadline()));
-            getTakerAndSetRV();
+            getTakerAndSetRV(data.getToDoName());
         }
 
         protected void setRecyclerView(ArrayList<User> taker) {
@@ -164,7 +166,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             takerRV.setAdapter(memberAdapter);
         }
 
-        protected void getTakerAndSetRV() {
+        protected void getTakerAndSetRV(final String toDoName) {
             Query toDoUserQuery = toDoUserDB.limitToLast(100);
             toDoUserQuery.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -173,7 +175,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ToDoUser toDoUser;
                     for (DataSnapshot child: dataSnapshot.getChildren()) {
                         toDoUser = child.getValue(ToDoUser.class);
-                        taker.add(getUserByUsername(toDoUser.getUsername()));
+
+                        if(toDoUser.getToDoName().equals(toDoName))
+                            taker.add(getUserByUsername(toDoUser.getUsername()));
                     }
 
                     setRecyclerView(taker);
