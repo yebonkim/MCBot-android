@@ -3,6 +3,7 @@ package com.example.mcbot.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,7 +61,7 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
-    String roomName = "ChatRoom3";
+    String roomName = "ChatRoom6";
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
@@ -92,8 +93,6 @@ public class ChattingFragment extends Fragment {
         context = getContext();
         retroClient = RetroClient.getInstance(context).createBaseApi(); //레트로핏 초기화
 
-
-        getIntentData();
         initDatabase();
         getPreChats();
         getUsers();
@@ -101,11 +100,6 @@ public class ChattingFragment extends Fragment {
 
 
 
-    }
-
-
-    protected void getIntentData() {
-        roomName = "ChatRoom1";
     }
 
     protected void initDatabase() {
@@ -124,14 +118,27 @@ public class ChattingFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chats = new ArrayList<>();
+                boolean isSmile = false;
+
                 for (DataSnapshot child: dataSnapshot.getChildren())
                     chats.add(child.getValue(Chat.class));
 
-                isChatsGetDone = true;
-                sortChats();
-                setRecyclerView();
+                for(Chat ch : chats)
+                    if (ch.getType() == 1) {
+                        isSmile = true;
+                        setMsgType(ch);
+                    }
 
-                chatRV.scrollToPosition( adapter.getItemCount() -1 );
+
+                if(isSmile) {
+                    goToSmileActivity();
+                } else {
+                    isChatsGetDone = true;
+                    sortChats();
+                    setRecyclerView();
+
+                    chatRV.scrollToPosition(adapter.getItemCount() - 1);
+                }
             }
 
             @Override
@@ -139,6 +146,20 @@ public class ChattingFragment extends Fragment {
 
             }
         });
+    }
+
+    protected void setMsgType(Chat ch) {
+        ch.setType(0);
+        chatDB.child(ch.getUsername()+""+ch.getTimestamp()).setValue(ch);
+    }
+
+    protected void goToSmileActivity() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(getActivity(), SmileActivity.class));
+            }
+        }, 1000);
     }
 
     protected void sortChats() {
@@ -170,7 +191,7 @@ public class ChattingFragment extends Fragment {
             return;
 
         chatRV.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new ChatAdapter(context, chats, users);
+        adapter = new ChatAdapter(getActivity(), chats, users);
         chatRV.setAdapter(adapter);
     }
 

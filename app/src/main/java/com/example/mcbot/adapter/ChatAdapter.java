@@ -1,7 +1,10 @@
 package com.example.mcbot.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mcbot.R;
+import com.example.mcbot.activity.LocationActivity;
+import com.example.mcbot.activity.NaverApiMapActivity;
 import com.example.mcbot.adapter.recyclerview.RecyclerViewHolder;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.User;
@@ -24,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
+
 /**
  * Created by yebonkim on 2018. 8. 9..
  */
@@ -32,9 +39,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEW_TYPE_MY_CHAT = 1;
     public static final int VIEW_TYPE_THIER_CHAT = 2;
     public static final int VIEW_TYPE_ATTENDANCE_CHAT = 3;
-    public static final int VIEW_TYPE_MEETING_CHAT = 4;
+    public static final int VIEW_TYPE_SET_MEETING_CHAT = 4;
+    public static final int VIEW_TYPE_MEETING_CHAT = 5;
 
-    Context context;
+    Activity activity;
     ArrayList<Chat> chats;
     ArrayList<User> users;
     String username;
@@ -50,12 +58,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         attendanceDB = database.getReference().child("Attendance/"+roomName);
     }
 
-    public ChatAdapter(Context context, ArrayList<Chat> chats, ArrayList<User> users) {
-        this.context = context;
+    public ChatAdapter(Activity activity, ArrayList<Chat> chats, ArrayList<User> users) {
+        this.activity = activity;
         this.chats = chats;
         this.users = users;
 
-        this.username = SharedPreferencesManager.getInstance(context).getUserName();
+        this.username = SharedPreferencesManager.getInstance(activity).getUserName();
         setHasStableIds(true);
         initDatabase();
     }
@@ -75,10 +83,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     //other user`s message
                     return VIEW_TYPE_THIER_CHAT;
                     //case 1 is not occurred
-
                 case 3:
                     //show location & date pick message
+                    return VIEW_TYPE_SET_MEETING_CHAT;
+                case 5:
                     return VIEW_TYPE_MEETING_CHAT;
+
             }
         }
 
@@ -98,6 +108,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case VIEW_TYPE_ATTENDANCE_CHAT:
                 view = LayoutInflater.from(context).inflate(R.layout.viewholder_attendance_uncomplete_chat, parent, false);
                 return new AtndCheckView(view);
+            case VIEW_TYPE_SET_MEETING_CHAT:
+                view = LayoutInflater.from(context).inflate(R.layout.viewholder_attendance_uncomplete_chat, parent, false);
+                return new SetMeetingView(view);
+            case VIEW_TYPE_MEETING_CHAT:
+                view = LayoutInflater.from(context).inflate(R.layout.viewholder_attendance_uncomplete_chat, parent, false);
+                return new MeetingView(view);
         }
 
         return null;
@@ -105,8 +121,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof MyView || holder instanceof  TheirView || holder instanceof  AtndCheckView)
-            ((RecyclerViewHolder)holder).setData(position);
+        ((RecyclerViewHolder)holder).setData(position);
     }
 
     @Override
@@ -195,6 +210,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Button btnYes;
 
         View view;
+        Context context;
 
         public AtndCheckView(View view) {
             super(view);
@@ -223,9 +239,104 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         btnYes.setText("출석 확인됨");
                         btnYes.setEnabled(false);
                         attendanceDB.child(username).setValue(true);
-//                        Toast.makeText(context, ""+attendanceDB, Toast.LENGTH_LONG).show();
-//                        System.out.println(attendanceDB);
-//                        attendanceDB.setValue(true);s
+                        break;
+                }
+            }
+        };
+
+    }
+
+
+    public class SetMeetingView extends RecyclerView.ViewHolder implements RecyclerViewHolder{
+        @BindView(R.id.msgTV)
+        TextView msgTV;
+        @BindView(R.id.profileIV)
+        ImageView profileIV;
+        @BindView(R.id.nameTV)
+        TextView nameTV;
+        @BindView(R.id.atndBtn)
+        Button btnYes;
+
+        View view;
+        Context context;
+
+        public SetMeetingView(View view) {
+            super(view);
+            this.view = view;
+            context =view.getContext();
+            ButterKnife.bind(this, view);
+        }
+
+        public void setData(int position) {
+            User user = getUserByUsername(chats.get(position).getUsername());
+
+            if(user != null) {
+                nameTV.setText(user.getShowingName() + "");
+                msgTV.setText(chats.get(position).getMessage());
+                btnYes.setText("설정하기");
+                btnYes.setOnClickListener(listener);
+                ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);
+            }
+        }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.atndBtn:
+                        activity.startActivity(new Intent(activity, NaverApiMapActivity.class));
+                        break;
+                }
+            }
+        };
+
+    }
+
+
+    public class MeetingView extends RecyclerView.ViewHolder implements RecyclerViewHolder{
+        @BindView(R.id.msgTV)
+        TextView msgTV;
+        @BindView(R.id.profileIV)
+        ImageView profileIV;
+        @BindView(R.id.nameTV)
+        TextView nameTV;
+        @BindView(R.id.atndBtn)
+        Button btnYes;
+
+        View view;
+        Context context;
+        double lat, lan;
+
+        public MeetingView(View view) {
+            super(view);
+            this.view = view;
+            context =view.getContext();
+            ButterKnife.bind(this, view);
+        }
+
+        public void setData(int position) {
+            User user = getUserByUsername(chats.get(position).getUsername());
+            StringTokenizer stk = new StringTokenizer(chats.get(position).getMessage(), ",");
+            stk.nextElement();
+            lat = Double.parseDouble(stk.nextElement().toString());
+            lan = Double.parseDouble(stk.nextElement().toString());
+
+
+            if(user != null) {
+                nameTV.setText(user.getShowingName() + "");
+                msgTV.setText(chats.get(position).getMessage());
+                btnYes.setText("장소보기");
+                btnYes.setOnClickListener(listener);
+                ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);
+            }
+        }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.atndBtn:
+                        activity.startActivity(new Intent(activity, LocationActivity.class).putExtra("lat", lat).putExtra("lan", lan));
                         break;
                 }
             }

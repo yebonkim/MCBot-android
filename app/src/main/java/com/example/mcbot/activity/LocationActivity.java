@@ -55,7 +55,7 @@ import butterknife.OnClick;
 //kwon8999.tistory.com/entry/네이버맵-API-사용하기1네이버앱-등록-및-기본-맵-띄우기 [Kwon's developer]
 //yq6QuSlK_N : 비번
 
-public class NaverApiMapActivity extends NMapActivity {
+public class LocationActivity extends NMapActivity {
 
     @BindView(R.id.mapView)
     NMapView mMapView;// 지도 화면 View
@@ -66,10 +66,13 @@ public class NaverApiMapActivity extends NMapActivity {
     FirebaseDatabase database;
     DatabaseReference addressDB;
 
+    double lat;
+    double lan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_naver_api_map);
+        setContentView(R.layout.activity_location);
         ButterKnife.bind(this);
 
         mMapView.setClientId(CLIENT_ID); // 클라이언트 아이디 값 설정
@@ -79,24 +82,20 @@ public class NaverApiMapActivity extends NMapActivity {
         mMapView.setFocusableInTouchMode(true);
         mMapView.requestFocus();
 
+        getIntentData();
+
         mMapController = mMapView.getMapController();
+        mMapController.setMapCenter(lan, lat);
 
-        initDatabase();
     }
 
-    protected void initDatabase() {
-        database = FirebaseDatabase.getInstance();
-        addressDB = database.getReference();
+    protected void getIntentData() {
+        lat = getIntent().getDoubleExtra("lat", 37.56399272515767);
+        lan = getIntent().getDoubleExtra("lan", 126.98022574522575);
     }
 
-    @OnClick(R.id.confirmBtn)
-    public void getCenterLocation() {
-        String path = "Address/ChatRoom1/"+ SharedPreferencesManager.getInstance(this).getUserName();
-        NGeoPoint selectedPoint = mMapController.getMapCenter();
-        String location = Double.toString(selectedPoint.getLatitude())+","+Double.toString(selectedPoint.getLongitude());
-        addressDB.child(path).setValue(location);
+    @Override
+    public void onBackPressed() {
         finish();
     }
-
 }
-

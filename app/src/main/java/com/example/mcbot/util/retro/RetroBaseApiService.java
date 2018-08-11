@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 public interface RetroBaseApiService {
 
 
-    String Base_URL= "http://abc3287c.ngrok.io";
+    String Base_URL= "http://5fa840f6.ngrok.io";
 
     @POST("/api/chats")
     Call<PostResult> postChat(@Body HashMap<String, Object> parameters);
