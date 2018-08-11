@@ -35,7 +35,7 @@ public class ToDoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_chatting, container, false);
+        return inflater.inflate(R.layout.fragment_todo, container, false);
     }
 
     @Override
