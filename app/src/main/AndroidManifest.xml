@@ -13,19 +13,24 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.IntroActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <!--<activity android:name=".activity.IntroActivity" />-->
-        <activity android:name=".activity.RatingActivity" />
-        <activity android:name=".activity.BotSettingActivity"></activity>
+        <!-- <activity android:name=".activity.IntroActivity" /> -->
+        <activity
+            android:name=".activity.RatingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.BotSettingActivity" />
+        <activity android:name=".activity.SmileActivity"></activity>
     </application>
 
 </manifest>

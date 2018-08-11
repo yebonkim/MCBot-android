@@ -3,8 +3,7 @@ package com.example.mcbot.util.retro;
 
 import android.content.Context;
 
-import com.example.mcbot.model.Chat;
-import com.example.mcbot.model.ChatResult;
+import com.example.mcbot.model.PostResult;
 
 import java.util.HashMap;
 
@@ -63,9 +62,9 @@ public class RetroClient {
 
     //서버로 채팅을 송신
     public void postChat(HashMap<String, Object> parameters, final RetroCallback callback) {
-        apiService.postChat(parameters).enqueue(new Callback<ChatResult>() {
+        apiService.postChat(parameters).enqueue(new Callback<PostResult>() {
             @Override
-            public void onResponse(Call<ChatResult> call, Response<ChatResult> response) {
+            public void onResponse(Call<PostResult> call, Response<PostResult> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.code(), response.body());
                 } else {
@@ -74,7 +73,26 @@ public class RetroClient {
             }
 
             @Override
-            public void onFailure(Call<ChatResult> call, Throwable t) {
+            public void onFailure(Call<PostResult> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    //서버로 얼굴사진 경로를 송신
+    public void postFace(HashMap<String, Object> parameters, final RetroCallback callback) {
+        apiService.postFace(parameters).enqueue(new Callback<PostResult>() {
+            @Override
+            public void onResponse(Call<PostResult> call, Response<PostResult> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostResult> call, Throwable t) {
                 callback.onError(t);
             }
         });

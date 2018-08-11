@@ -22,7 +22,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 /**
  * Created by yebonkim on 2018. 8. 9..
  */
@@ -152,6 +153,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView profileIV;
         @BindView(R.id.nameTV)
         TextView nameTV;
+        @BindView(R.id.chatTimeTv)
+        TextView timeTv;
 
         View view;
         Context context;
@@ -171,6 +174,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 nameTV.setText(user.getShowingName() + "");
                 msgTV.setText(chats.get(position).getMessage());
                 ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);
+
+                Date d = new Date(chats.get(position).getTimestamp());
+                String timeStr = new SimpleDateFormat("HH:mm").format(d);
+                timeTv.setText( timeStr );
             }
         }
     }

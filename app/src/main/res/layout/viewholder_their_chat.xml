@@ -36,7 +36,7 @@
             android:textColor="@color/mcbot_strong_gray" />
 
         <TextView
-            android:id="@+id/dateTv"
+            android:id="@+id/chatTimeTv"
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

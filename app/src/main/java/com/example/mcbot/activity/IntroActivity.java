@@ -3,19 +3,12 @@ package com.example.mcbot.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.mcbot.R;
-import com.example.mcbot.model.Chat;
-import com.example.mcbot.model.ChatResult;
 import com.example.mcbot.util.SharedPreferencesManager;
-import com.example.mcbot.util.retro.RetroCallback;
 import com.example.mcbot.util.retro.RetroClient;
-import com.example.mcbot.view.tab.SlidingTabLayout;
-
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
