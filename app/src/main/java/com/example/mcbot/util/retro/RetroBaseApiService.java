@@ -2,6 +2,7 @@ package com.example.mcbot.util.retro;
 
 
 import com.example.mcbot.model.Chat;
+import com.example.mcbot.model.ChatResult;
 
 import java.util.HashMap;
 
@@ -18,8 +19,7 @@ public interface RetroBaseApiService {
 
     String Base_URL= "http://127.0.0.1:9000";
 
-
     @POST("/test")
-    Call<Chat> postChat(@Body HashMap<String, Object> parameters);
+    Call<ChatResult> postChat(@Body HashMap<String, Object> parameters);
 
 }

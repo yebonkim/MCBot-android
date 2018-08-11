@@ -6,4 +6,10 @@
 
     <color name="white">#ffffff</color>
     <color name="gray"></color>
+
+    <color name="mcbot_sky">#57A1F1</color>
+    <color name="mcbot_gray">#D5D5D5</color>
+    <color name="mcbot_strong_gray">#5E5E5E</color>
+    <color name="mcbot_talking_gray">#5C636F</color>
+
 </resources>

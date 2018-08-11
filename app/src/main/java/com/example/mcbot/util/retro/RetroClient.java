@@ -4,6 +4,7 @@ package com.example.mcbot.util.retro;
 import android.content.Context;
 
 import com.example.mcbot.model.Chat;
+import com.example.mcbot.model.ChatResult;
 
 import java.util.HashMap;
 
@@ -62,9 +63,9 @@ public class RetroClient {
 
     //서버로 채팅을 송신
     public void postChat(HashMap<String, Object> parameters, final RetroCallback callback) {
-        apiService.postChat(parameters).enqueue(new Callback<Chat>() {
+        apiService.postChat(parameters).enqueue(new Callback<ChatResult>() {
             @Override
-            public void onResponse(Call<Chat> call, Response<Chat> response) {
+            public void onResponse(Call<ChatResult> call, Response<ChatResult> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.code(), response.body());
                 } else {
@@ -73,7 +74,7 @@ public class RetroClient {
             }
 
             @Override
-            public void onFailure(Call<Chat> call, Throwable t) {
+            public void onFailure(Call<ChatResult> call, Throwable t) {
                 callback.onError(t);
             }
         });
