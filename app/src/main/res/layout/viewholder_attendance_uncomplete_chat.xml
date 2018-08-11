@@ -1,57 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
-    app:layout_constraintRight_toLeftOf="parent">
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileIV"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
         android:src="@color/colorPrimary"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/nameTV"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="bony"
-        app:layout_constraintLeft_toRightOf="@id/profileIV"
-        app:layout_constraintTop_toTopOf="@id/profileIV" />
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/profileIV"
+        app:layout_constraintTop_toBottomOf="@+id/msgTV">
 
-    <Button
-        android:id="@+id/atndBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:text="네"
-        app:layout_constraintBaseline_toBaselineOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/msgTV" />
+        <TextView
+            android:id="@+id/nameTV"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:text="bony"
+            android:textColor="@color/mcbot_strong_gray" />
+        <Button
+            android:id="@+id/atndBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="네"
+            app:layout_constraintBaseline_toBaselineOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/msgTV" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:layout_marginStart="4dp"
+            android:text="11:23"
+            android:textColor="@color/mcbot_gray" />
+        />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/msgTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:background="#ababab"
+        android:maxWidth="210dp"
+        android:textColor="@color/mcbot_talking_gray"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/round_theirtalk"
         android:gravity="center_vertical|left"
         android:minHeight="30dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textSize="17dp"
         android:text="test"
         app:layout_constraintLeft_toRightOf="@id/profileIV"
-        app:layout_constraintTop_toBottomOf="@id/nameTV" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="16dp" />
+
 
 </android.support.constraint.ConstraintLayout>

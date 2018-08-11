@@ -3,7 +3,6 @@ package com.example.mcbot.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,7 +54,7 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
-    String roomName = "ChatRoom6";
+    String roomName = "ChatRoom3";
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
