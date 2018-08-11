@@ -1,56 +1,52 @@
 package com.example.mcbot.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.mcbot.R;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.ChatResult;
+import com.example.mcbot.util.SharedPreferencesManager;
 import com.example.mcbot.util.retro.RetroCallback;
 import com.example.mcbot.util.retro.RetroClient;
+import com.example.mcbot.view.tab.SlidingTabLayout;
 
 import java.util.HashMap;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class IntroActivity extends AppCompatActivity {
 
     RetroClient retroClient;
 
+    @BindView(R.id.nicknameEt)
+    EditText nicknameEt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+        ButterKnife.bind(this);
 
         retroClient = RetroClient.getInstance(this).createBaseApi();
     }
 
-    //서버(Flask)로 채팅내용 전송
-    public void postChat(Chat chat){
+    public void onClick_Enter(View v){
 
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("message", chat.getMessage());
-        parameters.put("timestamp", chat.getTimestamp());
-        parameters.put("unreadCnt", 5);
-        parameters.put("username", chat.getUsername() );
+        String nickname = nicknameEt.getText().toString();
 
+        SharedPreferencesManager spm = SharedPreferencesManager.getInstance(this);
+        spm.setUsername(nickname);
 
-        retroClient.postChat(parameters, new RetroCallback() {
-
-            @Override
-            public void onError(Throwable t) {
-                Log.e("Retrofit", "onError(), " + t.toString());
-            }
-
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-                ChatResult data = (ChatResult) receivedData;
-                Log.e("Retrofit", "Retrofit Response: " + data.isResult());
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Log.e("Retrofit", "onFailure(), " + String.valueOf(code));
-            }
-        });
+        Intent iT = new Intent(this, MainActivity.class);
+        startActivity(iT);
+        finish();
     }
+
+
 }

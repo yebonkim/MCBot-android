@@ -4,4 +4,11 @@
     <string name="chat">CHAT</string>
     <string name="todo">TODO</string>
     <string name="bot">BOT</string>
+    
+    
+    <string name="newToDo">일정추가</string>
+    <string name="title">제목</string>
+    <string name="date">날짜</string>
+
+    <string name="newToDoRegistered">새로운 일정이 추가되었습니다.</string>
 </resources>

@@ -58,6 +58,7 @@ public class BotFragment extends Fragment {
     @BindView(R.id.bot3_ll)
     LinearLayout bot3LL;
 
+
     Boolean[] chk;
 
     public BotFragment() {
@@ -93,6 +94,7 @@ public class BotFragment extends Fragment {
 
         imageInit();
         checkClick(context);
+        botClick(context);
     }
 
     void checkClick(final Context context){
@@ -144,6 +146,35 @@ public class BotFragment extends Fragment {
                             .into(check3_iv);
                     chk[2] = true;
                 }
+            }
+        });
+    }
+
+    void botClick(final Context context){
+        bot1_Iv.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iT = new Intent(context, BotSettingActivity.class);
+                iT.putExtra("botId", 0);
+                startActivity(iT);
+            }
+        });
+
+        bot2_Iv.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iT = new Intent(context, BotSettingActivity.class);
+                iT.putExtra("botId", 1);
+                startActivity(iT);
+            }
+        });
+
+        bot3_Iv.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iT = new Intent(context, BotSettingActivity.class);
+                iT.putExtra("botId", 2);
+                startActivity(iT);
             }
         });
     }

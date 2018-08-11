@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -36,7 +36,7 @@
             android:textColor="@color/mcbot_strong_gray" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/dateTv"
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

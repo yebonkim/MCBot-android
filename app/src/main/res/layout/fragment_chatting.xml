@@ -10,8 +10,10 @@
         android:id="@+id/chatRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:tabTextColor="@color/mcbot_talking_gray"
         app:layout_constraintBottom_toTopOf="@id/view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/AppTheme.AppBarOverlay"/>
 
     <View
         android:id="@+id/view"
@@ -41,6 +43,7 @@
         app:layout_constraintLeft_toRightOf="@id/newChatET"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/newChatET"/>
+
 
 
 </android.support.constraint.ConstraintLayout>
