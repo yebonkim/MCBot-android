@@ -1,7 +1,9 @@
 package com.example.mcbot.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.mcbot.R;
+import com.example.mcbot.activity.RatingActivity;
 import com.example.mcbot.adapter.ChatAdapter;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.User;
@@ -103,13 +106,22 @@ public class ChattingFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chats = new ArrayList<>();
-                for (DataSnapshot child: dataSnapshot.getChildren())
-                    chats.add(child.getValue(Chat.class));
+                Chat temp;
+                Boolean isLaugh = false;
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    temp = child.getValue(Chat.class);
+                    chats.add(temp);
+                    if(temp.getType() == 1)
+                        isLaugh = true;
+                }
 
-                //TODO : check laugh type message
-                isChatsGetDone = true;
-                sortChats();
-                setRecyclerView();
+                if(isLaugh) {
+                    startActivity(new Intent(getActivity(), RatingActivity.class));
+                } else {
+                    isChatsGetDone = true;
+                    sortChats();
+                    setRecyclerView();
+                }
             }
 
             @Override
@@ -156,8 +168,6 @@ public class ChattingFragment extends Fragment {
     public void sendMsg() {
         postNewChat(collectData());
     }
-
-
 
     protected void postNewChat(Chat chat) {
         String chatName = getChatName(chat.getTimestamp());
