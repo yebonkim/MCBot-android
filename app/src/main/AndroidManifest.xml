@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
+    <!--반드시 추가--><uses-permission android:name="android.permission.INTERNET" />
+    <!--위치정보활용시 추가--><uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--위치정보활용시 추가--><uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,8 +20,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.IntroActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".activity.BotSettingActivity" />
+        <activity android:name=".activity.NaverApiMapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,12 +37,20 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <!-- <activity android:name=".activity.IntroActivity" /> -->
+<<<<<<< HEAD
 
         <activity android:name=".activity.SmileActivity"></activity>
         <!--<activity android:name=".activity.IntroActivity" />-->
         <activity android:name=".activity.RatingActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.BotSettingActivity"></activity>
+=======
+        <activity
+            android:name=".activity.RatingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.SmileActivity"></activity>
+        <!--<activity android:name=".activity.IntroActivity" />-->
+>>>>>>> 77348bd869cdbc6e44c2956dacbd5e3911953643
         <activity android:name=".activity.NewToDoActivity"></activity>
     </application>
 
