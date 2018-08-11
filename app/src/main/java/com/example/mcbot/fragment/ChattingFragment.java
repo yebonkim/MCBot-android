@@ -1,17 +1,20 @@
-package com.example.mcbot.activity;
+package com.example.mcbot.fragment;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.mcbot.R;
 import com.example.mcbot.adapter.ChatAdapter;
-import com.example.mcbot.constants.IntentConstants;
 import com.example.mcbot.model.Chat;
 import com.example.mcbot.model.User;
 import com.example.mcbot.util.SharedPreferencesManager;
@@ -32,7 +35,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatRoomActivity extends AppCompatActivity {
+/**
+ * Created by Kimyebon on 2018-08-11.
+ */
+
+public class ChattingFragment extends Fragment {
+    Context context;
 
     @BindView(R.id.newChatET)
     EditText newChatET;
@@ -49,11 +57,30 @@ public class ChatRoomActivity extends AppCompatActivity {
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
 
+    public ChattingFragment() {
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_room);
-        ButterKnife.bind(this);
+        Log.d("ChattingFragment", "onCreate: ");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        return inflater.inflate(R.layout.fragment_chatting, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+
+        context = getContext();
 
         getIntentData();
         initDatabase();
@@ -61,8 +88,9 @@ public class ChatRoomActivity extends AppCompatActivity {
         getUsers();
     }
 
+
     protected void getIntentData() {
-        roomName = getIntent().getStringExtra(IntentConstants.ROOM_NAME);
+        roomName = "ChatRoom1";
     }
 
     protected void initDatabase() {
@@ -72,7 +100,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     }
 
     protected String getChatName(long timestamp) {
-        return SharedPreferencesManager.getInstance(this).getUserName()+(String.valueOf(timestamp));
+        return SharedPreferencesManager.getInstance(context).getUserName()+(String.valueOf(timestamp));
     }
 
     protected void getPreChats() {
@@ -124,8 +152,8 @@ public class ChatRoomActivity extends AppCompatActivity {
         if(!(isChatsGetDone && isUsersGetDone))
             return;
 
-        chatRV.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ChatAdapter(this, chats, users);
+        chatRV.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new ChatAdapter(context, chats, users);
         chatRV.setAdapter(adapter);
     }
 
@@ -167,7 +195,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     protected Chat collectData() {
         String msg = newChatET.getText().toString();
-        String username = SharedPreferencesManager.getInstance(this).getUserName();
+        String username = SharedPreferencesManager.getInstance(context).getUserName();
 
         return new Chat(msg, username, 5, TimeUtil.getNowTimestamp());
     }
@@ -179,4 +207,5 @@ public class ChatRoomActivity extends AppCompatActivity {
             return (chat1.getTimestamp() >= chat2.getTimestamp())? 1 : -1;
         }
     }
+
 }

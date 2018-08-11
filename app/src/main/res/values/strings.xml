@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MCBot</string>
+
+    <string name="chat">CHAT</string>
+    <string name="todo">TODO</string>
+    <string name="bot">BOT</string>
 </resources>
