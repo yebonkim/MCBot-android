@@ -5,6 +5,8 @@
 
     <!--현재 탭 -->
     <item android:color="@color/colorPrimary" android:state_selected="true"/>
+    <item android:color="#9c9c9c" android:state_selected="false"/>
+
 
     <!--클릭했을 때-->
     <item android:color="@color/colorPrimary" android:state_pressed="true"/>
