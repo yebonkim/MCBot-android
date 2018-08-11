@@ -52,7 +52,7 @@ public class ChattingFragment extends Fragment {
 
     ChatAdapter adapter;
 
-    String roomName;
+    String roomName = "ChatRoom6";
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Chat> chats = new ArrayList<>();
     boolean isUsersGetDone, isChatsGetDone = false;
@@ -82,15 +82,9 @@ public class ChattingFragment extends Fragment {
 
         context = getContext();
 
-        getIntentData();
         initDatabase();
         getPreChats();
         getUsers();
-    }
-
-
-    protected void getIntentData() {
-        roomName = "ChatRoom3";
     }
 
     protected void initDatabase() {
@@ -112,6 +106,7 @@ public class ChattingFragment extends Fragment {
                 for (DataSnapshot child: dataSnapshot.getChildren())
                     chats.add(child.getValue(Chat.class));
 
+                //TODO : check laugh type message
                 isChatsGetDone = true;
                 sortChats();
                 setRecyclerView();
@@ -153,7 +148,7 @@ public class ChattingFragment extends Fragment {
             return;
 
         chatRV.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new ChatAdapter(context, chats, users);
+        adapter = new ChatAdapter(getActivity(), chats, users);
         chatRV.setAdapter(adapter);
     }
 
@@ -199,7 +194,7 @@ public class ChattingFragment extends Fragment {
         String msg = newChatET.getText().toString();
         String username = SharedPreferencesManager.getInstance(context).getUserName();
 
-        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp());
+        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp(), 0);
     }
 
     class ChatAscendingComparator implements Comparator<Chat> {
