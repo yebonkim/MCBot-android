@@ -20,13 +20,11 @@ public class RatingActivity extends AppCompatActivity {
     @BindView(R.id.rating_user_profile_iv)
     ImageView userIv;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
         ButterKnife.bind(this);
-
         initRating();
     }
 

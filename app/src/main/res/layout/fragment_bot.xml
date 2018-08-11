@@ -1,8 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        android:weightSum="2"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!--MC봇-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bot_1_iv"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <!--체크부분-->
+                <LinearLayout
+                    android:id="@+id/bot1_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/bot_check1_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="MC봇"
+                        android:textColor="#000000"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!--칭호봇-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bot_2_iv"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <!--체크부분-->
+                <LinearLayout
+                    android:id="@+id/bot2_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/bot_check2_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="칭호봇"
+                        android:textColor="#000000"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bot_3_iv"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <!--체크부분-->
+                <LinearLayout
+                    android:id="@+id/bot3_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/bot_check3_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="조교봇"
+                        android:textColor="#000000"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!--<Button-->
+        <!--android:id="@+id/bot_btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="86dp"-->
+        <!--android:text="Bot"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
 
 </android.support.constraint.ConstraintLayout>

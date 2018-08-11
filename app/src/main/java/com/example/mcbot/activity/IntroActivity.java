@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.mcbot.R;
+import com.example.mcbot.model.Chat;
+import com.example.mcbot.model.ChatResult;
 import com.example.mcbot.util.retro.RetroCallback;
 import com.example.mcbot.util.retro.RetroClient;
 
@@ -23,11 +25,14 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     //서버(Flask)로 채팅내용 전송
-    public void postChat(){
+    public void postChat(Chat chat){
 
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("nickname", "nickname");
-        parameters.put("chat", "싱그러운 자연의 햇살을 머금은 엄선된 포도만을 정성드레 담았습니다.");
+        parameters.put("message", chat.getMessage());
+        parameters.put("timestamp", chat.getTimestamp());
+        parameters.put("unreadCnt", 5);
+        parameters.put("username", chat.getUsername() );
+
 
         retroClient.postChat(parameters, new RetroCallback() {
 
@@ -38,7 +43,8 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Log.e("Retrofit", receivedData.toString());
+                ChatResult data = (ChatResult) receivedData;
+                Log.e("Retrofit", "Retrofit Response: " + data.isResult());
             }
 
             @Override
