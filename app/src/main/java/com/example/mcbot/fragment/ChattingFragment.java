@@ -19,6 +19,7 @@ import com.example.mcbot.R;
 import com.example.mcbot.activity.SmileActivity;
 import com.example.mcbot.adapter.ChatAdapter;
 import com.example.mcbot.model.Chat;
+import com.example.mcbot.model.Emotion;
 import com.example.mcbot.model.PostResult;
 import com.example.mcbot.model.User;
 import com.example.mcbot.util.SharedPreferencesManager;
@@ -57,7 +58,7 @@ public class ChattingFragment extends Fragment {
     RecyclerView chatRV;
 
     FirebaseDatabase database;
-    DatabaseReference userDB, chatDB;
+    DatabaseReference userDB, chatDB, emotionDB;
 
     ChatAdapter adapter;
 
@@ -104,6 +105,7 @@ public class ChattingFragment extends Fragment {
 
     protected void initDatabase() {
         database = FirebaseDatabase.getInstance();
+        emotionDB = database.getReference().child("Emotion");
         userDB = database.getReference().child("User");
         chatDB = database.getReference().child("Chat/"+roomName);
     }
@@ -200,8 +202,8 @@ public class ChattingFragment extends Fragment {
         Chat chat = collectData();
 
         if(newChatET.getText().toString().equals("하기싫다")){
-            Intent iT = new Intent( getContext(), SmileActivity.class);
-            startActivity(iT);
+            changeAllNotSmile();
+            chat.setType(1);
         }
 
         postNewChat(chat); //to Firebase
@@ -209,12 +211,31 @@ public class ChattingFragment extends Fragment {
 
 //        chat_listview.setSelection(chat_adapter.getCount() - 1); //가장 아래쪽으로 스크롤다운
 
-
-
-
     }
 
+    protected void changeAllNotSmile() {
+        Emotion a1 = new Emotion(false, "윤전수");
+        Emotion a2 = new Emotion(false, "김독도");
+        Emotion a3 = new Emotion(false, "두통수");
+        Emotion a4 = new Emotion(false, "경조사");
+        Emotion a5 = new Emotion(false, "임소거");
 
+        emotionDB.child("윤전수").setValue(a1);
+        emotionDB.child("김독도").setValue(a2);
+        emotionDB.child("두통수").setValue(a3);
+        emotionDB.child("경조사").setValue(a4);
+        emotionDB.child("임소거").setValue(a5);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        isChatsGetDone = false;
+        isUsersGetDone = false;
+        getPreChats();
+        getUsers();
+    }
 
     protected Chat collectData() {
         String msg = newChatET.getText().toString();

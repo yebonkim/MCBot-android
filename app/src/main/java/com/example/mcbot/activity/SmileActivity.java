@@ -10,12 +10,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.mcbot.adapter.SmileAdapter;
 import com.example.mcbot.model.Chat;
+import com.example.mcbot.model.Emotion;
 import com.example.mcbot.model.PostResult;
+import com.example.mcbot.model.User;
 import com.example.mcbot.util.SharedPreferencesManager;
 import com.example.mcbot.util.retro.RetroCallback;
 import com.example.mcbot.util.retro.RetroClient;
@@ -39,14 +44,27 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class SmileActivity extends AppCompatActivity implements View.OnClickListener{
 
+    @BindView(R.id.recyclerView)
+    RecyclerView smileRV;
+
     Button Button_Camera;
     private DatabaseReference mPostReference;
     RetroClient retroClient;
+
+    SmileAdapter adapter;
+    ArrayList<Emotion> emotions;
+    ArrayList<User> users;
+
+    DatabaseReference userDB;
+
+    boolean isGetUsersDone = false;
+    boolean isGetEmotionsDone = false;
 
 
     @Override
@@ -62,14 +80,46 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("Emotion");
         getBool();
+        getUsers();
+    }
+
+
+    protected void getUsers() {
+        userDB = FirebaseDatabase.getInstance().getReference().child("User");
+
+        Query userQuery = userDB.limitToLast(100);
+        userQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                users = new ArrayList<>();
+                User temp;
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    temp = child.getValue(User.class);
+                    if(temp.getBot()==0)
+                        users.add(temp);
+                }
+
+                isGetUsersDone = true;
+                setRecyclerView();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     protected void getBool() {
         mPostReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot child: dataSnapshot.getChildren())
-//                    ToDo change status of emotion
+                emotions = new ArrayList<>();
+                for (DataSnapshot child : dataSnapshot.getChildren())
+                    emotions.add(child.getValue(Emotion.class));
+
+                isGetEmotionsDone = true;
+                setRecyclerView();
 
             }
 
@@ -77,6 +127,16 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    protected void setRecyclerView() {
+        if(!(isGetEmotionsDone && isGetUsersDone))
+            return;
+
+        smileRV.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SmileAdapter(this, emotions, users);
+        smileRV.setAdapter(adapter);
+
     }
 
     @Override

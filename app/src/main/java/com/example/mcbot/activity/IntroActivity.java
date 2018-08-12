@@ -30,7 +30,6 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     public void onClick_Enter(View v){
-
         String nickname = nicknameEt.getText().toString();
 
         SharedPreferencesManager spm = SharedPreferencesManager.getInstance(this);

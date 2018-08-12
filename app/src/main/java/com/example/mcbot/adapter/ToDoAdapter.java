@@ -133,7 +133,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(int position) {
             data = toDos.get(position);
             toDoTV.setText(data.getToDo());
-            if(data.isDone()) {
+            if(data.getIsDone()) {
                 isDoneBtn.setBackground(context.getDrawable(R.drawable.ic_done_btn));
                 isDoneBtn.setClickable(false);
             } else {
@@ -144,7 +144,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             isDoneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    data.setDone(true);
+                    data.setIsDone(true);
                     toDoDB.child(data.getToDoName()).setValue(data);
                 }
             });

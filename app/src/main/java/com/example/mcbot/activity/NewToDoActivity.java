@@ -132,8 +132,8 @@ public class NewToDoActivity extends AppCompatActivity {
 
         newToDo.setToDo(toDoETV.getText().toString());
         newToDo.setDeadline(selectedDate.getTimeInMillis());
-        newToDo.setDone(false);
-        newToDo.setWarned(false);
+        newToDo.setIsDone(false);
+        newToDo.setIsWarned(false);
         newToDo.setToDoName(getToDoName(selectedDate.getTimeInMillis()));
 
         return newToDo;

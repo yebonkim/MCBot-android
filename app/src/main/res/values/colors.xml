@@ -6,7 +6,8 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="gray"></color>
+    <color name="gray">#d5d5d5</color>
+    <color name="red">#dd0404</color>
 
     <color name="mcbot_sky">#57A1F1</color>
     <color name="mcbot_gray">#D5D5D5</color>

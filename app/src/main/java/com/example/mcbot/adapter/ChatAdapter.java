@@ -48,7 +48,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     String username;
 
     // database 접근용
-    String roomName = "ChatRoom3";
+    String roomName = "ChatRoom6";
     FirebaseDatabase database;
     DatabaseReference attendanceDB;
 
@@ -317,14 +317,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(int position) {
             User user = getUserByUsername(chats.get(position).getUsername());
             StringTokenizer stk = new StringTokenizer(chats.get(position).getMessage(), ",");
-            stk.nextElement();
             lat = Double.parseDouble(stk.nextElement().toString());
             lan = Double.parseDouble(stk.nextElement().toString());
 
 
             if(user != null) {
                 nameTV.setText(user.getShowingName() + "");
-                msgTV.setText(chats.get(position).getMessage());
+                msgTV.setText("약속장소가 정해졌습니다!");
                 btnYes.setText("장소보기");
                 btnYes.setOnClickListener(listener);
                 ImageUtil.setProfileImage(context, user.getProfileName(), profileIV);

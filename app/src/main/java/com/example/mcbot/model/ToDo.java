@@ -39,19 +39,19 @@ public class ToDo {
         this.toDoName = toDoName;
     }
 
-    public boolean isWarned() {
+    public boolean getIsWarned() {
         return isWarned;
     }
 
-    public void setWarned(boolean warned) {
+    public void setIsWarned(boolean warned) {
         isWarned = warned;
     }
 
-    public boolean isDone() {
+    public boolean getIsDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setIsDone(boolean done) {
         isDone = done;
     }
 
