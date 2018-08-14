@@ -40,7 +40,9 @@
         </activity>
         <!-- <activity android:name=".activity.IntroActivity" /> -->
 
-        <activity android:name=".activity.SmileActivity"></activity>
+        <activity android:name=".activity.SmileActivity"
+            android:launchMode="singleInstance"
+            ></activity>
         <activity android:name=".activity.RatingActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.NewToDoActivity"></activity>

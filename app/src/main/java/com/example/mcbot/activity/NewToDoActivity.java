@@ -50,7 +50,7 @@ public class NewToDoActivity extends AppCompatActivity {
     RecyclerView userRV;
 
     FirebaseDatabase database;
-    DatabaseReference toDoDB, userDB, toDoUserDB;
+    DatabaseReference toDoDB, userDB, toDoUserDB, chatDB;
 
     UserSelectAdapter adapter;
 
@@ -73,6 +73,7 @@ public class NewToDoActivity extends AppCompatActivity {
         userDB = database.getReference().child("User");
         toDoDB = database.getReference().child("ToDo");
         toDoUserDB = database.getReference().child("ToDoUser");
+        chatDB = database.getReference().child("Chat/ChatRoom6");
     }
 
     protected void getUsers() {
@@ -107,6 +108,49 @@ public class NewToDoActivity extends AppCompatActivity {
     @OnClick(R.id.confirmBtn)
     public void addNewToDo() {
         postNewToDo(collectData());
+        postNewChat(collectChatData());
+    }
+
+    protected Chat collectChatData() {
+        String msg = "새로운 업무 ["+toDoETV.getText().toString()+"]가 등록되었습니다";
+        String username = "MC봇";
+
+        return new Chat(msg, username, 5, TimeUtil.getNowTimestamp(), 0);
+    }
+
+
+    protected String getChatName(long timestamp) {
+        return SharedPreferencesManager.getInstance(this).getUserName()+(String.valueOf(timestamp));
+    }
+
+    protected void postNewChat(Chat chat) {
+        String chatName = getChatName(chat.getTimestamp());
+        chatDB.child(chatName).setValue(chat);
+        chatDB.child(chatName).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     protected String getToDoName(long timestamp) {

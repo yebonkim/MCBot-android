@@ -1,5 +1,6 @@
 package com.example.mcbot.activity;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -65,6 +66,7 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
 
     boolean isGetUsersDone = false;
     boolean isGetEmotionsDone = false;
+    boolean isSmile = false;
 
 
     @Override
@@ -148,7 +150,10 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        Toast.makeText(getApplicationContext(), "웃어주셔야 합니다^^", Toast.LENGTH_LONG).show();
+        if(isSmile == false)
+            Toast.makeText(getApplicationContext(), "웃어주셔야 합니다^^", Toast.LENGTH_LONG).show();
+        else
+            finish();
     }
 
     @Override
@@ -205,7 +210,7 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
 
     //서버(Flask)로 채팅내용 전송
     public void postFace(String uri){
-
+        final Activity activity = this;
 
         SharedPreferencesManager spm = SharedPreferencesManager.getInstance(this);
 
@@ -227,7 +232,7 @@ public class SmileActivity extends AppCompatActivity implements View.OnClickList
 
                 Log.e("FlaskFace", "결과: " + data.isResult() );
                 if(data.isResult()){
-                    finish();
+                    isSmile=true;
                 }else{
                     Toast.makeText(getApplicationContext(), "웃는 얼굴로 찍어주세요 :)", Toast.LENGTH_SHORT).show();
                 }
